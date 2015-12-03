@@ -43,6 +43,8 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <CustomBuildAfterTargets>ClCompile</CustomBuildAfterTargets>
+    <CustomBuildBeforeTargets>Link</CustomBuildBeforeTargets>
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
@@ -67,7 +69,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <CustomBuildBeforeTargets>BuildCompile</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>Compile</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -115,11 +117,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalOptions>callfunc.obj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>$(Platform)\$(Configuration)\callfunc.obj %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
-      <Command>echo "Build callfunc.asm"
-ml64.exe /Fo$(Platform)\$(Configuration)\callfunc.obj callfunc.asm</Command>
+      <Command>ml64.exe /c /Fo $(ProjectDir)\$(Platform)\$(Configuration)\callfunc.obj $(ProjectDir)\callfunc.asm</Command>
+      <Outputs>$(ProjectDir)\$(Platform)\$(Configuration)\callfunc.obj</Outputs>
+      <Inputs>$(ProjectDir)\callfunc.asm</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>

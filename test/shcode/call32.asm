@@ -1,9 +1,7 @@
 
 .686P
-
 .code
-
-Add PROC
+IntAdd PROC
 	push ebp
 	mov ebp,esp
 	mov ebx,[ebp+4]
@@ -12,5 +10,5 @@ Add PROC
 	add eax,ecx
 	mov esp,ebp
 	pop ebp
-Add ENDP
+IntAdd ENDP
 End

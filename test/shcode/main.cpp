@@ -1,12 +1,12 @@
 
 #include <stdio.h>
 
-extern "C" int Add(int a,int b);
+extern "C" int IntAdd(int a,int b);
 
 int shell_code(void)
 {
 	int num;
-	num = Add(3,4);
+	num = IntAdd(3,4);
 	printf("num %d\n",num);
 	return 0;
 }
