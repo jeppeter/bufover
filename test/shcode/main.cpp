@@ -4,6 +4,7 @@
 extern "C" int __thiscall IntAdd(int a,int b,int c,int d);
 extern "C" int __cdecl  CAdd(int a,int b);
 extern "C" int __stdcall DecodeBuffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen);
+extern "C" void* __stdcall GetBaseAddr(void);
 
 
 int encode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen)
@@ -89,11 +90,12 @@ int shell_code(void)
 	num = IntAdd(3,4,5,6);
 
 	cnt = encode_buffer(inbuf,sizeof(inbuf),outbuf,sizeof(outbuf));
-	retcnt = DecodeBuffer(outbuf,cnt,decbuf,sizeof(decbuf));
 	debug_buffer(inbuf,sizeof(inbuf));
 	debug_buffer(outbuf,cnt);
-	debug_buffer(decbuf,retcnt);
+	retcnt = DecodeBuffer(outbuf,cnt,outbuf,sizeof(outbuf));
+	debug_buffer(outbuf,retcnt);
 
+	printf("get addr 0x%p\n",GetBaseAddr());
 
 	return 0;
 }

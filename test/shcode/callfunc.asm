@@ -64,91 +64,19 @@ inc_byte:
 	ret
 DecodeBuffer endp
 
-InputParam Proc
-	; this is for the input pinbuffer
-	xor rax,rax
-	xor al,al
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,044h
-	shl rax,08h
-	mov al,044h
-	mov rcx,rax
-
-
-	; this is for inlen
-	xor rax,rax
-	xor al,al
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,044h
-	shl rax,08h
-	mov al,044h
-	mov rdx,rax
-
-	; this is for poutbuf
-	xor rax,rax
-	xor al,al
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,044h
-	shl rax,08h
-	mov al,044h
-	mov r8,rax
-
-	; this is for outlen
-	xor rax,rax
-	xor al,al
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,011h
-	shl rax,08h
-	mov al,022h
-	shl rax,08h
-	mov al,033h
-	shl rax,08h
-	mov al,044h
-	shl rax,08h
-	mov al,044h
-	mov r9,rax
-
-
-
-
-InputParam endp
+GetBaseAddr Proc
+	push rdi
+	lea rax,[$]
+	xor rbx,rbx
+	xor bl,bl
+	mov bl,01h
+	shl rbx,08h
+	mov bl,02h
+	shl rbx,08h
+	add rax,rbx
+	;mov rax,rbx
+	pop rdi
+	ret
+GetBaseAddr endp
 
 End
