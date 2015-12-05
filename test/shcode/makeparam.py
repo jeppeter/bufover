@@ -20,9 +20,9 @@ import sys
 
 
 
-def get_value(addrval,shiftval):
+def get_value(addrval,rshift):
 	codes = []
-	curcode = addrval >> shiftval
+	curcode = addrval >> rshift
 	if curcode & 0xff == 0 :
 		# if it is null ,so it will give the xor al,al code
 		codes.extend([0x32,0xc0])
@@ -31,6 +31,9 @@ def get_value(addrval,shiftval):
 		codes.extend([0xb0,mvval])
 	return codes
 
+def shift_rax_8():
+	codes.extend([0x48,0xC1,0xE0,0x08])
+	return codes
 
 ####################################
 #  this code is like this
