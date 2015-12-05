@@ -1,7 +1,23 @@
 #!python
 
 import sys
-import struct
+
+
+#############################################
+#       stack overflow shellcode handing
+#     we build shell code in this way
+#     dummy_code_size:
+#           dummycode before overflow return address
+#     return_addr:
+#           return address from the ip
+#     code_decode:
+#           code to decode origin shell code
+#     real_shellcode:
+#           real shell code to run make sure 
+#           the real_shell code could not exceed (1<<16) size
+#
+#############################################
+
 
 
 def get_value(addrval,shiftval):
@@ -77,8 +93,8 @@ def makebuf(codes):
 	return s
 
 def main():
-	if len(sys.argv) < 5 :
-		sys.stderr.write('%s inputbuf inputlen outpubuf outputlen'%(sys.argv[0]))
+	if len(sys.argv) < 4 :
+		sys.stderr.write('%s '%(sys.argv[0]))
 		sys.exit(4)
 	codes = []
 	try:
