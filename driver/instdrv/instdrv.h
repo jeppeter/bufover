@@ -3,6 +3,7 @@
 
 #define  SVC_NAME_SIZE        256
 #define  SYS_FILE_SIZE        256
+#define  SVC_DESC_SIZE        256
 
 class InstDrv
 {
@@ -16,14 +17,20 @@ public:
 	int StopDrv();
 
 private:
-	char m_svcname[SVC_NAME_SIZE];
-	char m_sysfile[SYS_FILE_SIZE];
+	TCHAR m_svcname[SVC_NAME_SIZE];
+	TCHAR m_sysfile[SYS_FILE_SIZE];
+	TCHAR m_svcdesc[SVC_DESC_SIZE];
+	char m_svcansi[SVC_NAME_SIZE];
+	char m_sysansi[SYS_FILE_SIZE];
 	SC_HANDLE m_hSC;
+	SC_HANDLE m_hSvc;
 
 private:
 	int __OpenScManager();
+	int __OpenSvc(DWORD access);
 	int __CreateService();
 	void __CloseScManager();
+	void __CloseSvc();
 };
 
 
