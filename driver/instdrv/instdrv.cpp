@@ -185,3 +185,101 @@ int InstDrv::RegisterDrv(const char* pDesc)
 	/*return 0*/
 	return 0;
 }
+
+int InstDrv::RunDrv()
+{
+	int ret;
+	BOOL bret;
+	ret = this->__OpenScManager();
+	if (ret < 0)
+	{
+		return ret;
+	}
+
+	ret = this->__OpenSvc(SERVICE_START);
+	if (ret < 0)
+	{		
+		goto fail;
+	}
+
+	bret = StartService(this->m_hSvc,0,NULL);
+	if (!bret)
+	{
+		ret = GETERRNO();
+		ERROR_INFO("can not start service(%s) error(%d)\n",this->m_svcansi,ret);
+		goto fail;
+	}
+
+	return 0;
+fail:
+	this->__CloseSvc();
+	this->__CloseScManager();
+	return ret;
+}
+
+int InstDrv::StopDrv()
+{
+	int ret;
+	BOOL bret;
+	SERVICE_STATUS sts;
+	ret = this->__OpenScManager();
+	if (ret < 0)
+	{
+		return ret;
+	}
+
+	ret = this->__OpenSvc(SERVICE_STOP);
+	if (ret < 0)
+	{		
+		goto fail;
+	}
+
+	bret = ControlService(this->m_hSvc, SERVICE_CONTROL_STOP, &sts);
+	if (!bret)
+	{
+		ret = GETERRNO();
+		ERROR_INFO("can not start service(%s) error(%d)\n",this->m_svcansi,ret);
+		goto fail;
+	}
+	DEBUG_INFO("stop service (%s) status (%d)\n",this->m_svcansi,sts);
+	return 0;
+fail:
+	this->__CloseSvc();
+	this->__CloseScManager();
+	return ret;	
+}
+
+int InstDrv::UnregisterDrv()
+{
+	int ret;
+	BOOL bret;
+	ret = this->__OpenScManager();
+	if (ret < 0)
+	{
+		return ret;
+	}
+
+	ret = this->__OpenSvc(DELETE);
+	if (ret < 0)
+	{		
+		goto fail;
+	}
+
+	bret = DeleteService(this->m_hSvc);
+	if (!bret)
+	{
+		ret = GETERRNO();
+		ERROR_INFO("can not delete service (%s) error (%d)\n",this->m_svcansi,ret);
+		goto fail;
+	}
+
+	/*close it as delete it*/
+	this->__CloseSvc();
+
+	return 0;
+fail:
+	this->__CloseSvc();
+	this->__CloseScManager();
+	return ret;	
+
+}
