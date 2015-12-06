@@ -7,10 +7,31 @@ InstDrv::InstDrv(const char* pSvcName,const char* pSysFile)
 {
 	this->m_hSC = NULL;
 	this->m_hSvc = NULL;
-	strncpy(this->m_svcname,pSvcName,sizeof(this->m_svcname));
-	strncpy(this->m_sysfile,pSysFile,sizeof(this->m_sysfile));
-	memset(this->m_svcansi,0,sizeof(this->m_svcansi));
-	memset(this->m_sysansi,0,sizeof(this->m_sysansi));
+
+
+
+	strncpy(this->m_svcansi,pSvcName,sizeof(this->m_svcname));
+	strncpy(this->m_sysansi,pSysFile,sizeof(this->m_sysfile));
+
+#ifdef _UNICODE
+	wchar_t* pRetWide=NULL;
+	int wsize=0;
+	int ret;
+
+	ret = AnsiToUnicode(pSvcName,&pRetWide,&wsize);
+	ASSERT_IF(ret >= 0);
+	wscncpy(this->m_svcname,pRetWide,sizeof(this->m_svcname)/sizeof(this->m_svcname[0]));
+
+	ret = AnsiToUnicode(pSysFile,&pRetWide,&wsize);
+	ASSERT_IF(ret >= 0);
+	wscncpy(this->m_sysfile,pRetWide,sizeof(this->m_sysfile)/sizeof(this->m_sysfile[0]));
+	/*reset for null*/
+	AnsiToUnicode(NULL,&pRetWide,&wsize);
+#else
+	strncpy(this->m_svcansi,pSvcName,sizeof(this->m_svcname));
+	strncpy(this->m_sysansi,pSysFile,sizeof(this->m_sysfile));
+#endif
+
 	memset(this->m_svcdesc,0,sizeof(this->m_svcdesc));
 }
 
@@ -128,14 +149,39 @@ fail:
 int InstDrv::RegisterDrv(const char* pDesc)
 {
 	int ret;
-
-	ret = this->__OpenScManager();
+#ifdef _UNICODE
+	int wsize=0;
+	wchar_t* pRetWide=NULL;
+	if (pDesc != NULL)
+	{
+	ret = AnsiToUnicode(pDesc,&pRetWide,&wsize);
 	if (ret < 0)
 	{
 		return ret;
 	}
+	wscncpy(this->m_svcdesc,pRetWide,sizeof(this->m_svcdesc)/sizeOf(this->m_svcdesc[0]));
+	AnsiToUnicode(NULL,&pRetWide,&wsize);
+	}
+	else
+	{
+		memset(this->m_svcdesc,0,sizeof(this->m_svcdesc));
+	}
+#else
+	if (pDesc != NULL)
+	{
+	strncpy(this->m_svcdesc,pDesc,sizeof(this->m_svcdesc)/sizeOf(this->m_svcdesc[0]));
+	}
+	else
+	{
+		memset(this->m_svcdesc,0,sizeof(this->m_svcdesc));
+	}
+#endif
 
-	ret = 
-
-
+	ret=  this->__CreateService();
+	if (ret < 0)
+	{
+		return ret;
+	}
+	/*return 0*/
+	return 0;
 }

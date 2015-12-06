@@ -47,5 +47,15 @@ extern "C" void DebugBufferFmt(const char* file,int lineno,unsigned char* pBuffe
 
 #define GETERRNO() (GetLastError() != 0 ? -GetLastError(): -1) 
 
+#define ASSERT_IF(expr)  \
+	do\
+	{\
+		if (!(expr)){\
+			ERROR_INFO("expression %s not asserted\n",#expr);\
+			abort();\
+		}\
+	}\
+	while(0)
+
 
 #endif /*__OUTPUT_DEBUG_H__*/
