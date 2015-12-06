@@ -105,7 +105,23 @@ int InstDrv::__CreateService()
 		return ret;
 	}
 	this->__CloseSvc();
-	this->m_hSvc = CreateService();
+	this->m_hSvc = CreateService(this->m_hSC,
+		this->m_svcname,this->m_svcdesc,0,SERVICE_KERNEL_DRIVER,
+		SERVICE_DEMAND_START,SERVICE_ERROR_IGNORE,this->m_sysfile,NULL,NULL,NULL,NULL,NULL);
+	if (this->m_hSvc == NULL)
+	{
+		ret = GETERRNO();
+		ERROR_INFO("can not create (%s) error(%d)\n",this->m_svcansi,ret);
+		goto fail;
+	}
+
+	/*to close service*/
+	this->__CloseSvc();
+	return 0;
+fail:
+	this->__CloseSvc();
+	this->__CloseScManager();
+	return ret;
 }
 
 
