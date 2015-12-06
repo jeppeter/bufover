@@ -45,7 +45,7 @@ extern "C" void DebugBufferFmt(const char* file,int lineno,unsigned char* pBuffe
 #define  DEBUG_BUFFER_FMT(ptr,blen,...) DebugBufferFmt(__FILE__,__LINE__,(unsigned char*)ptr,blen,__VA_ARGS__)
 
 
-#define GETERRNO() (GetLastError() != 0 ? -GetLastError(): -1) 
+#define GETERRNO() ((int)(GetLastError() != 0 ? -(int)GetLastError(): -1))
 
 #define ASSERT_IF(expr)  \
 	do\

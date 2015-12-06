@@ -1,6 +1,8 @@
 #ifndef __INST_DRV_H__
 #define __INST_DRV_H__
 
+#include <windows.h>
+
 #define  SVC_NAME_SIZE        256
 #define  SYS_FILE_SIZE        256
 #define  SVC_DESC_SIZE        256
@@ -9,9 +11,10 @@ class InstDrv
 {
 
 public:
-	InstDrv(const char* pSvcName,const char* pSysFile);
+	InstDrv(const char* pSvcName);
 	virtual ~InstDrv();
 	int RegisterDrv(const char* pDesc);
+	int SetDrvBin(const char* sysfile);
 	int UnregisterDrv();
 	int RunDrv();
 	int StopDrv();
@@ -26,7 +29,7 @@ private:
 	SC_HANDLE m_hSvc;
 
 private:
-	int __OpenScManager();
+	int __OpenScManager(DWORD access);
 	int __OpenSvc(DWORD access);
 	int __CreateService();
 	void __CloseScManager();
