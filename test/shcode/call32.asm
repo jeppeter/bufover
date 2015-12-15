@@ -1,6 +1,8 @@
 
+
+.686p
+.model flat
 .code
-.686
 IntAdd Proc
 	push ebp
 	mov ebp,esp

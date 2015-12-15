@@ -128,6 +128,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalOptions>$(PlatformTarget)\$(Configuration)\callfunc.obj %(AdditionalOptions)</AdditionalOptions>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <CustomBuildStep>
       <Command>ml.exe /c /Fo $(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj $(ProjectDir)\call32.asm</Command>
