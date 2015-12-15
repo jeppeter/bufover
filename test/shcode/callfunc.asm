@@ -79,4 +79,9 @@ GetBaseAddr Proc
 	ret
 GetBaseAddr endp
 
+MovRax Proc
+	mov rax,1
+	ret
+MovRax endp
+
 End

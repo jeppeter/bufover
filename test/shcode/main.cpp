@@ -1,10 +1,10 @@
 
 #include <stdio.h>
 
-extern "C" int __thiscall IntAdd(int a,int b,int c,int d);
-extern "C" int __cdecl  CAdd(int a,int b);
-extern "C" int __stdcall DecodeBuffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen);
-extern "C" void* __stdcall GetBaseAddr(void);
+extern "C" int  IntAdd(int a,int b,int c,int d);
+extern "C" int   CAdd(int a,int b);
+extern "C" int  DecodeBuffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen);
+extern "C" void* GetBaseAddr(void);
 
 
 int encode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen)
@@ -84,7 +84,7 @@ int shell_code(void)
 	int num=0;
 	unsigned char inbuf[10] = {0x1,0x2,0x3,0x4,0x5,0x6,0x0,0x0,0x0,0x0};
 	unsigned char outbuf[20];
-	unsigned char decbuf[20];
+	//unsigned char decbuf[20];
 	int cnt,retcnt;
 
 	num = IntAdd(3,4,5,6);
@@ -92,7 +92,8 @@ int shell_code(void)
 	cnt = encode_buffer(inbuf,sizeof(inbuf),outbuf,sizeof(outbuf));
 	debug_buffer(inbuf,sizeof(inbuf));
 	debug_buffer(outbuf,cnt);
-	retcnt = DecodeBuffer(outbuf,cnt,outbuf,sizeof(outbuf));
+	//retcnt = DecodeBuffer(outbuf,cnt,outbuf,sizeof(outbuf));
+	retcnt=decode_buffer(outbuf,cnt,outbuf,sizeof(outbuf));
 	debug_buffer(outbuf,retcnt);
 
 	printf("get addr 0x%p\n",GetBaseAddr());
