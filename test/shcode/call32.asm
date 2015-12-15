@@ -1,7 +1,7 @@
 
 
 .686p
-.model flat
+.model flat,C
 .code
 IntAdd Proc
 	push ebp
@@ -22,6 +22,8 @@ IntAdd endp
 ;  r9  for outlen
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DecodeBuffer Proc
+	push ebp
+	mov ebp,esp
 	push esi
 	push edi
 	push ebx
@@ -31,9 +33,9 @@ DecodeBuffer Proc
 	xor edi,edi
 	xor ebx,ebx	
 	xor eax,eax
-	mov esi,ecx
-	;mov edi,r8  ; this will modify
-	mov ecx,edx
+	mov esi,dword ptr [ebp + 08h] ; this is pinbuf
+	mov edi,dword ptr [ebp + 10h]  ; this is poutbuf
+	mov ecx,dword ptr [ebp + 0Ch]  ; this is inlen
 	xor edx,edx
 decode_again:
 	mov al,byte ptr[esi]
@@ -65,6 +67,8 @@ inc_byte:
 	pop ebx
 	pop edi
 	pop esi
+	mov esp,ebp
+	pop ebp
 	ret
 DecodeBuffer endp
 

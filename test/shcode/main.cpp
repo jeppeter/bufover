@@ -32,13 +32,14 @@ int encode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int out
 	return cnt;
 }
 
+#pragma optimize("",off)
 int decode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen)
 {
 	int cnt=0;
-	int i;
+	int i,j;
 	unsigned char* pin=pinbuf,*pout =poutbuf;
 
-	for (i=0;i<inlen;i++,cnt ++,pin ++ ,pout ++)
+	for (i=0,j=0;i<inlen && j < outlen;i++,cnt ++,pin ++ ,pout ++)
 	{
 		if (*pin == 0x1)
 		{
@@ -47,20 +48,24 @@ int decode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int out
 			if (*pin == 0x2)
 			{
 				*pout = 0x0;
+				j ++;
 			}
 			else
 			{
 				*pout = 0xff;
+				j ++;
 			}
 		}
 		else
 		{
 			*pout = *pin;
 			(*pout) -- ;
+			j ++;
 		}
 	}
 	return cnt;
 }
+#pragma optimize("",on)
 
 void debug_buffer(unsigned char* pbuf,int size)
 {
@@ -92,8 +97,8 @@ int shell_code(void)
 	cnt = encode_buffer(inbuf,sizeof(inbuf),outbuf,sizeof(outbuf));
 	debug_buffer(inbuf,sizeof(inbuf));
 	debug_buffer(outbuf,cnt);
-	//retcnt = DecodeBuffer(outbuf,cnt,outbuf,sizeof(outbuf));
-	retcnt=decode_buffer(outbuf,cnt,outbuf,sizeof(outbuf));
+	retcnt = DecodeBuffer(outbuf,cnt,outbuf,sizeof(outbuf));
+	//retcnt=decode_buffer(outbuf,cnt,outbuf,sizeof(outbuf));
 	debug_buffer(outbuf,retcnt);
 
 	printf("get addr 0x%p\n",GetBaseAddr());

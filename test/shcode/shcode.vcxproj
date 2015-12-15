@@ -96,8 +96,9 @@
       <AdditionalOptions>$(PlatformTarget)\$(Configuration)\callfunc.obj %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
-      <Command>ml.exe /c /Fo $(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj $(ProjectDir)\call32.asm</Command>
+      <Command>ml.exe /c /safeseh /Fo $(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj $(ProjectDir)\call32.asm</Command>
       <Outputs>$(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj</Outputs>
+      <Inputs>call32.asm</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,7 +132,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <CustomBuildStep>
-      <Command>ml.exe /c /Fo $(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj $(ProjectDir)\call32.asm</Command>
+      <Command>ml.exe /c /safeseh /Fo $(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj $(ProjectDir)\call32.asm</Command>
       <Outputs>$(ProjectDir)\$(PlatformTarget)\$(Configuration)\callfunc.obj</Outputs>
       <Inputs>call32.asm</Inputs>
     </CustomBuildStep>
