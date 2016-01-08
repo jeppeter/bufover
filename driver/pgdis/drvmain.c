@@ -58,22 +58,13 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDrvObj,PIRP pIrp)
 
 	switch(ctrlcode)
 	{
-		case IOCTL_IO_TEST:
+		case IOCTL_DUMP_PG:
 		{
-			DWORD dw=0;
-			memcpy(&dw,pIoBuffer,sizeof(DWORD));
-			dw ++;
-			memcpy(pIoBuffer,&dw,sizeof(DWORD));
 			status =STATUS_SUCCESS;
+			outsize = 0;
 			break;
 		}
 
-		case IOCTL_SAY_HELLO:
-		{
-			DEBUG_PRINT("[HelloDrv]SayHello\n");
-			status = STATUS_SUCCESS;
-			break;
-		}
 		default:
 			break;
 	}
@@ -128,6 +119,6 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDrvObj,PUNICODE_STRING pRegistryString)
 		return status;
 	}
 
-	DEBUG_PRINT("[HelloDrv]DriverEntry\n");
+	DEBUG_PRINT("[%s]DriverEntry\n",DEVICE_NAME_ANSI);
 	return STATUS_SUCCESS;
 }
