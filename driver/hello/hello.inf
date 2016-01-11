@@ -1,0 +1,60 @@
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%HELLODRV%
+DriverVer=03/10/2015,52.72.104.10200 
+DriverPackageDisplayName = %HelloDrv.DeviceDesc%
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksFiles]
+HelloDrv.sys  = 1,,
+
+[SourceDisksNames]
+1 = %HelloDrvId%,,,""
+
+
+[Manufacturer]
+%HELLODRV%=HelloDrv,NTAMD64
+
+[HelloDrv]
+%HelloDrv.DeviceDesc%=HelloDrv_Device, ROOT\HelloDrv
+
+; Decorated model section take precedence over undecorated
+; ones on XP and later.
+[HelloDrv.NTAMD64]
+%HelloDrv.DeviceDesc%=HelloDrv_Device, ROOT\HelloDrv
+
+[HelloDrv_Device.NT]
+CopyFiles=Drivers_Dir
+
+[HelloDrv_Device.NT.HW]
+AddReg=HelloDrv_AddReg
+
+[HelloDrv_AddReg]
+
+[Drivers_Dir]
+HelloDrv.sys
+
+;-------------- Service installation
+
+[HelloDrv_Device.NT.Services]
+AddService = HelloDrv, 0x00000002, HelloDrv_Service_Inst
+
+; -------------- VirtioSerial driver install sections
+[HelloDrv_Service_Inst]
+DisplayName    = %HelloDrv.ServiceDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\HelloDrv.sys
+
+
+[Strings]
+HELLODRV = "Hello Driver"
+HelloDrvId = "Hello Driver Id"
+HelloDrv.DeviceDesc = "HelloDrv Driver"
+HelloDrv.ServiceDesc = "HelloDrv Service"
