@@ -7,6 +7,8 @@
 #include <priv.h>
 #include <strop.h>
 
+#pragma warning(disable:4996)
+
 
 typedef long NTSTATUS;
 
@@ -23,6 +25,7 @@ typedef struct _UNICODE_STRING {
 
 typedef VOID (_stdcall *RtlInitUnicodeStringFunc)( IN OUT UNICODE_STRING *DestinationString,
                                        IN PCWSTR SourceString );
+typedef DWORD (CALLBACK* RtlAnsiStringToUnicodeStringFunc)(PVOID, PVOID,DWORD);
 
 typedef NTSTATUS (_stdcall *ZwSetSystemInformationFunc)( IN DWORD functionCode,
         IN OUT PVOID driverName,
@@ -39,12 +42,15 @@ NTSTATUS loadDriver(PCWSTR binaryPath)
 {
     DRIVER_NAME DriverName;
     const char dllName[] = "ntdll.dll";
-    HANDLE ntHandle = NULL;
+    HMODULE ntHandle = NULL;
     RtlInitUnicodeStringFunc RtlInitUnicodeString=NULL;
     ZwSetSystemInformationFunc ZwSetSystemInformation=NULL;
+    RtlAnsiStringToUnicodeStringFunc RtlAnsiStringToUnicodeString=NULL;
+    wchar_t wbuffer[256];
+    int ret;
+    memset(&DriverName,0,sizeof(DriverName));
 
-
-    ntHandle = (void *) GetModuleHandle(dllName);
+    ntHandle = (HMODULE) GetModuleHandle(dllName);
 
     if (ntHandle == NULL) {
         ERROR_INFO("can not get dll handle\n");
@@ -52,26 +58,35 @@ NTSTATUS loadDriver(PCWSTR binaryPath)
     }
 
 
-    RtlInitUnicodeString = (RtlInitUnicodeStringFunc) GetProcAddress ( GetModuleHandle(dllName),
-                           "RtlInitUnicodeString" );
-
-    ZwSetSystemInformation = (ZwSetSystemInformationFunc)GetProcAddress (GetModuleHandle(dllName),
-                             "ZwSetSystemInformation" );
-
-    printf("RtlInitUnicodeString == 0x%p\n", RtlInitUnicodeString);
-    printf("ZwSetSystemInformation == 0x%p\n", ZwSetSystemInformation);
-
-    if (RtlInitUnicodeString == NULL) {
-    	ERROR_INFO("can not get RtlInitUnicodeString\n");
-        return -1;
+    RtlInitUnicodeString = (RtlInitUnicodeStringFunc) GetProcAddress ( ntHandle,"RtlInitUnicodeString" );
+    if (RtlInitUnicodeString == NULL){
+    	GETERRNO(ret);
+    	fprintf(stderr, "can not load RtlInitUnicodeString error(%d)\n", ret);
+    	SETERRNO(-ret);
+    	return ret;
     }
 
-    RtlInitUnicodeString(&(DriverName).name, binaryPath);
-
-    if (ZwSetSystemInformation == NULL) {
-    	ERROR_INFO("can not get ZwSetSystemInformation\n");
-        return -1;
+    ZwSetSystemInformation = (ZwSetSystemInformationFunc)GetProcAddress (ntHandle,"ZwSetSystemInformation" );
+    if (ZwSetSystemInformation == NULL){
+    	GETERRNO(ret);
+    	fprintf(stderr, "can not load ZwSetSystemInformation error(%d)\n", ret);
+    	SETERRNO(-ret);
+    	return ret;
     }
+
+    RtlAnsiStringToUnicodeString = (RtlAnsiStringToUnicodeStringFunc) GetProcAddress(ntHandle,"RtlAnsiStringToUnicodeString");
+    if (RtlAnsiStringToUnicodeString == NULL){
+    	GETERRNO(ret);
+    	fprintf(stderr, "can not load RtlAnsiStringToUnicodeString error(%d)\n",ret);
+    	SETERRNO(-ret);
+    	return ret;
+    }
+
+    memset(wbuffer,0,sizeof(wbuffer));
+    wcsncpy(wbuffer,binaryPath,sizeof(wbuffer)/sizeof(wbuffer[0]));
+    DriverName.name.Buffer= wbuffer;
+    DriverName.name.Length = (USHORT)wcsnlen(wbuffer,sizeof(wbuffer)/sizeof(wbuffer[0]));
+    DriverName.name.MaximumLength = sizeof(wbuffer)/sizeof(wbuffer[0]);
 
     return ZwSetSystemInformation( LOAD_DRIVER_IMAGE_CODE,
                                    &DriverName,
