@@ -1,0 +1,71 @@
+;//=====================================================================
+;// Copyright (c) 2015 by Steward Fu
+;// All rights reserved
+;// 2015/05/05
+;//=====================================================================
+[Version]
+Signature=$Windows NT$
+Class=Unknown
+Provider=%MFGNAME%
+DriverVer=05/05/2015,1.0.0.0
+ 
+[Manufacturer]
+%MFGNAME%=DeviceList
+ 
+[DeviceList]
+%DESCRIPTION%=DriverInstall, *WDMHello
+ 
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+ 
+[SourceDisksFiles]
+WDMHello.sys=1,,,
+ 
+[SourceDisksNames]
+1=%INSTDISK%,,,
+ 
+;//---------------------------------------------------------------------
+;//  Windows 2000 Sections
+;//---------------------------------------------------------------------
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+ 
+[DriverCopyFiles]
+WDMHello.sys,,,2
+ 
+[DriverInstall.NT.Services]
+AddService=FILEIO,2,DriverService
+ 
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\WDMHello.sys
+ 
+[DriverInstall.NT.HW]
+AddReg=DriverHwAddReg
+ 
+[DriverHwAddReg]
+HKR,,SampleInfo,,""
+ 
+;//---------------------------------------------------------------------
+;//  Windows 98 Sections
+;//---------------------------------------------------------------------
+[DriverInstall]
+AddReg=DriverAddReg
+CopyFiles=DriverCopyFiles
+ 
+[DriverAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,WDMHello.sys
+ 
+[DriverInstall.HW]
+AddReg=DriverHwAddReg
+ 
+;//---------------------------------------------------------------------
+;//  String Definitions
+;//---------------------------------------------------------------------
+[Strings]
+MFGNAME="WDMHello"
+INSTDISK="WDMHello Disc"
+DESCRIPTION="WDMHello"
