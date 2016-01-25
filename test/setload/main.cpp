@@ -37,6 +37,35 @@ typedef struct _DRIVER_NAME {
 } DRIVER_NAME;
 
 #define LOAD_DRIVER_IMAGE_CODE 38
+#define CREATE_SESSION_CODE    47
+
+NTSTATUS createSession(ULONG *pnewsession)
+{
+    ZwSetSystemInformationFunc ZwSetSystemInformation=NULL;
+    HMODULE ntHandle = NULL;
+    const char dllName[] = "ntdll.dll";
+    int ret;
+
+
+    ntHandle = (HMODULE) GetModuleHandle(dllName);
+
+    if (ntHandle == NULL) {
+        ERROR_INFO("can not get dll handle\n");
+        return -1;
+    }
+
+
+
+    ZwSetSystemInformation = (ZwSetSystemInformationFunc)GetProcAddress (ntHandle,"ZwSetSystemInformation" );
+    if (ZwSetSystemInformation == NULL){
+        GETERRNO(ret);
+        fprintf(stderr, "can not load ZwSetSystemInformation error(%d)\n", ret);
+        SETERRNO(-ret);
+        return ret;
+    }
+
+    return ZwSetSystemInformation(CREATE_SESSION_CODE,pnewsession,sizeof(*pnewsession));
+}
 
 NTSTATUS loadDriver(PCWSTR binaryPath)
 {
@@ -108,6 +137,8 @@ int _tmain(int argc,TCHAR* argv[])
     int ret;
     HANDLE hToken=NULL;
     int enabled=0;
+    ULONG session=0;
+
 
     if (argc <2){
     	ret = -1;
@@ -135,6 +166,7 @@ int _tmain(int argc,TCHAR* argv[])
     	goto out;
     }
 
+
     ret = EnableLoadDriver(&hToken);
     if (ret < 0){
     	GETERRNO(ret);
@@ -142,6 +174,12 @@ int _tmain(int argc,TCHAR* argv[])
     	goto out;
     }
     enabled = 1;
+    status = createSession(&session);
+    if (!NT_SUCCESS(status)){
+        GETERRNO(ret);
+        fprintf(stderr, "can not create session error(0x%x:%d)\n", status,status);
+        goto out;
+    }
 
     status = loadDriver(binaryPath);
     if (!NT_SUCCESS(status)){
