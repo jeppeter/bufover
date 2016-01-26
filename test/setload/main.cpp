@@ -174,12 +174,14 @@ int _tmain(int argc,TCHAR* argv[])
     	goto out;
     }
     enabled = 1;
+#if 0    
     status = createSession(&session);
     if (!NT_SUCCESS(status)){
         GETERRNO(ret);
         fprintf(stderr, "can not create session error(0x%x:%d)\n", status,status);
         goto out;
     }
+#endif    
 
     status = loadDriver(binaryPath);
     if (!NT_SUCCESS(status)){
