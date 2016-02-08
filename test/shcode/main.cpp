@@ -5,6 +5,7 @@ extern "C" int  IntAdd(int a,int b,int c,int d);
 extern "C" int   CAdd(int a,int b);
 extern "C" int  DecodeBuffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen);
 extern "C" void* GetBaseAddr(void);
+extern "C" int CallJmpoline(void* funcptr);
 
 
 int encode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen)
@@ -106,9 +107,19 @@ int shell_code(void)
 	return 0;
 }
 
+int print_call()
+{
+	printf("call from jmpoline\n");
+	return 0;
+}
+
 int main(int argc,char* argv[])
 {
-	printf("this is make shell code\n");	
-	shell_code();
+	int ret;
+	//printf("this is make shell code\n");	
+	//shell_code();
+	printf("to start\n");
+	ret = CallJmpoline((void*)print_call);
+	printf("ret %d\n",ret);
 	return 0;
 }
