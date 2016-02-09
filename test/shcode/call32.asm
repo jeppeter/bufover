@@ -112,6 +112,21 @@ ShellCodeForCall PROC
 	ret 4h
 ShellCodeForCall ENDP
 
+JMPRAX PROC
+	jmp eax
+	jmp ecx
+	jmp edx
+	jmp ebx
+	jmp esp
+	jmp ebp
+	jmp esi
+	jmp edi
+	jmp dword ptr [eax+100h]
+	jmp dword ptr [ecx+100h]
+	jmp dword ptr [edx+100h]
+	jmp dword ptr [ebx+100h]
+	ret
+JMPRAX ENDP
 
 
 End

@@ -100,4 +100,38 @@ ShellCodeForCall PROC
 	mov rax,qword ptr[rsp+8]
 	ret 8h
 ShellCodeForCall ENDP
+
+JMPRAX PROC
+	jmp rax
+	jmp rcx
+	jmp rdx
+	jmp rbx
+	jmp rsp
+	jmp rbp
+	jmp rsi
+	jmp rdi
+	jmp r8
+	jmp r9
+	jmp r10
+	jmp r11
+	jmp r12
+	jmp r13
+	jmp r14
+	jmp r15	
+	jmp qword ptr [rax+100h]
+	jmp qword ptr [rax+1234567712345678h]
+	jmp qword ptr [rax+rbx]
+	jmp qword ptr [rax+rbx+12345678h]
+	jmp qword ptr [rax+r8]
+	jmp qword ptr [rbx+r9]
+	jmp qword ptr [rbx+r9+12345678h]
+	jmp qword ptr [rax+rcx]
+	jmp qword ptr [rbx+rcx]
+	jmp qword ptr [rcx+100h]
+	jmp qword ptr [rdx+100h]
+	jmp qword ptr [rbx+100h]
+	jmp qword ptr [$+6]
+	ret
+JMPRAX ENDP
+
 End
