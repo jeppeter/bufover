@@ -107,17 +107,17 @@ int shell_code(void)
 	return 0;
 }
 
-int print_call()
+int print_call(void* ptr)
 {
-	printf("call from jmpoline\n");
+	printf("call from jmpoline pointer 0x%p 0x%p\n",ptr,print_call);
 	return 0;
 }
 
 int main(int argc,char* argv[])
 {
 	int ret;
-	//printf("this is make shell code\n");	
-	//shell_code();
+	printf("this is make shell code\n");	
+	shell_code();
 	printf("to start\n");
 	ret = CallJmpoline((void*)print_call);
 	printf("ret %d\n",ret);

@@ -92,4 +92,26 @@ MovRax Proc
 	ret
 MovRax endp
 
+public CallJmpoline
+CallJmpoline PROC
+	push eax
+	push ecx
+	mov ecx,dword ptr[esp+0ch]
+	mov eax,ecx
+	push eax
+	mov ecx,dword ptr[esp+4h]
+	mov eax,dword ptr[esp+8h]
+	ret 8h
+CallJmpoline ENDP
+
+ShellCodeForCall PROC
+	push eax
+	mov eax,12345678h
+	push eax
+	mov eax,dword ptr[esp+4]
+	ret 4h
+ShellCodeForCall ENDP
+
+
+
 End
