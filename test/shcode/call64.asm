@@ -135,8 +135,14 @@ JMPRAX PROC
 	jmp qword ptr [$+6]
 	mov rax,qword ptr [$+7]
 	mov rax,rbx
-	mov r11,[r13+r14]
-	mov [r13+r14],r11
+	mov r8,[r9+r10]
+	mov r8,[rcx+rdx]
+	mov r8,[rcx+r10]
+	mov r8,[r9+rdx]
+	mov [rcx+rdx],r8
+	mov rax,[rcx+rdx]
+	mov [r9+r10],r8
+	mov [rcx+rdx],rax
 	mov [r13+r14*4],r11
 	mov r11,[r13+r14*4]
 	mov [r13+r14*4+16h],r11
