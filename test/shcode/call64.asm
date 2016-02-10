@@ -133,7 +133,17 @@ JMPRAX PROC
 	jmp qword ptr [rdx+100h]
 	jmp qword ptr [rbx+100h]
 	jmp qword ptr [$+6]
+	mov rax,qword ptr [$+7]
+	mov rax,rbx
+	mov r11,[r13+r14]
+	mov [r13+r14],r11
+	mov [r13+r14*4],r11
+	mov r11,[r13+r14*4]
+	mov [r13+r14*4+16h],r11
+	mov [r13],r11
+	mov r11,011h
 	ret
 JMPRAX ENDP
+
 
 End
