@@ -102,7 +102,6 @@ ShellCodeForCall PROC
 ShellCodeForCall ENDP
 
 JMPRAX PROC
-	jmp rax
 	jmp rcx
 	jmp rdx
 	jmp rbx
@@ -118,7 +117,9 @@ JMPRAX PROC
 	jmp r13
 	jmp r14
 	jmp r15	
-	mov rdx,01234567812345678h
+	lea rdx,[$+7]
+	lea rcx,[$+7]
+	mov rdx,0102030405060708h
 	mov r8,01234567812345678h
 	mov r8,12345678h
 	mov r9,12345678h
