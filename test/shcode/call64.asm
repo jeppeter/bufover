@@ -102,58 +102,39 @@ ShellCodeForCall PROC
 ShellCodeForCall ENDP
 
 JMPRAX PROC
-	jmp rcx
-	jmp rdx
-	jmp rbx
-	jmp rsp
-	jmp rbp
-	jmp rsi
-	jmp rdi
-	jmp r8
-	jmp r9
-	jmp r10
-	jmp r11
-	jmp r12
-	jmp r13
-	jmp r14
-	jmp r15	
-	lea rdx,[$+7]
+	lea rax,[$+7]
 	lea rcx,[$+7]
-	mov rdx,0102030405060708h
-	mov r8,01234567812345678h
-	mov r8,12345678h
-	mov r9,12345678h
+	lea rdx,[$+7]
+	lea rbx,[$+7]
+	lea rsp,[$+7]
+	lea rbp,[$+7]
+	lea rsi,[$+7]
+	lea rdi,[$+7]
+	mov rax,01234567812345678h
 	mov rcx,01234567812345678h
-	jmp qword ptr [rax+100h]
-	jmp qword ptr [rax+1234567712345678h]
-	jmp qword ptr [rax+rbx]
-	jmp qword ptr [rax+rbx+12h]
-	jmp qword ptr [rax+4*rbx+12h]
-	jmp qword ptr [rax+8*rbx+12h]
-	jmp qword ptr [rax+r8]
-	jmp qword ptr [rbx+r9]
-	jmp qword ptr [rbx+r9+12345678h]
-	jmp qword ptr [rax+rcx]
-	jmp qword ptr [rbx+rcx]
-	jmp qword ptr [rcx+100h]
-	jmp qword ptr [rdx+100h]
-	jmp qword ptr [rbx+100h]
-	jmp qword ptr [$+6]
-	mov rax,qword ptr [$+7]
-	mov rax,rbx
-	mov r8,[r9+r10]
-	mov r8,[rcx+rdx]
-	mov r8,[rcx+r10]
-	mov r8,[r9+rdx]
-	mov [rcx+rdx],r8
-	mov rax,[rcx+rdx]
-	mov [r9+r10],r8
-	mov [rcx+rdx],rax
-	mov [r13+r14*4],r11
-	mov r11,[r13+r14*4]
-	mov [r13+r14*4+16h],r11
-	mov [r13],r11
-	mov r11,011h
+	mov rdx,01234567812345678h
+	mov rbx,01234567812345678h
+	mov rsp,01234567812345678h
+	mov rbp,01234567812345678h
+	mov rsi,01234567812345678h
+	mov rdi,01234567812345678h
+	lea r8,[$+7]
+	lea r9,[$+7]
+	lea r10,[$+7]
+	lea r11,[$+7]
+	lea r12,[$+7]
+	lea r13,[$+7]
+	lea r14,[$+7]
+	lea r15,[$+7]
+
+	mov r8,01234567812345678h
+	mov r9,01234567812345678h
+	mov r10,01234567812345678h
+	mov r11,01234567812345678h
+	mov r12,01234567812345678h
+	mov r13,01234567812345678h
+	mov r14,01234567812345678h
+	mov r15,01234567812345678h
 	ret
 JMPRAX ENDP
 

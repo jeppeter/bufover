@@ -113,18 +113,22 @@ ShellCodeForCall PROC
 ShellCodeForCall ENDP
 
 JMPRAX PROC
-	jmp eax
-	jmp ecx
-	jmp edx
-	jmp ebx
-	jmp esp
-	jmp ebp
-	jmp esi
-	jmp edi
-	jmp dword ptr [eax+100h]
-	jmp dword ptr [ecx+100h]
-	jmp dword ptr [edx+100h]
-	jmp dword ptr [ebx+100h]
+	lea eax,[$+6]
+	lea ecx,[$+6]
+	lea edx,[$+6]
+	lea ebx,[$+6]
+	lea esp,[$+6]
+	lea ebp,[$+6]
+	lea esi,[$+6]
+	lea edi,[$+6]
+	mov eax,01020304h
+	mov ecx,01020304h
+	mov edx,01020304h
+	mov ebx,01020304h
+	mov esp,01020304h
+	mov ebp,01020304h
+	mov esi,01020304h
+	mov edi,01020304h
 	ret
 JMPRAX ENDP
 
