@@ -118,6 +118,11 @@ JMPRAX PROC
 	jmp r13
 	jmp r14
 	jmp r15	
+	mov rdx,01234567812345678h
+	mov r8,01234567812345678h
+	mov r8,12345678h
+	mov r9,12345678h
+	mov rcx,01234567812345678h
 	jmp qword ptr [rax+100h]
 	jmp qword ptr [rax+1234567712345678h]
 	jmp qword ptr [rax+rbx]
