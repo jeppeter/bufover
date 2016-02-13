@@ -137,7 +137,16 @@ JMPRAX PROC
 	mov r15,01234567812345678h
 
 
-	xor rax,[rcx+8]
+
+	lea rax,[rcx+rdx+8]
+	mov [rcx+rdx+8],rax
+	mov rax,[rcx+rdx+8]
+	mov rax,[r9+rdx+8]
+	mov rax,[r9+r10+8]
+	mov r8,[r9+r10+8]
+	mov rax,[rcx+r10+8]
+	xor rax,[rcx+rdx+8]
+	xor [rcx+rdx+8],rax
 	xor r8,r9
 	xor rax,r9
 	xor rax,rcx
