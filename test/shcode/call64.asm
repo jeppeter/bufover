@@ -135,6 +135,17 @@ JMPRAX PROC
 	mov r13,01234567812345678h
 	mov r14,01234567812345678h
 	mov r15,01234567812345678h
+
+
+	xor rax,[rcx+8]
+	xor r8,r9
+	xor rax,r9
+	xor rax,rcx
+	xor eax,ecx
+	xor ax,cx
+	xor al,cl
+	xor ah,ch
+	xor eax,edx
 	ret
 JMPRAX ENDP
 

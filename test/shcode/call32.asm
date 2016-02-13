@@ -129,6 +129,11 @@ JMPRAX PROC
 	mov ebp,01020304h
 	mov esi,01020304h
 	mov edi,01020304h
+
+	xor eax,ecx
+	xor ax,cx
+	xor al,cl
+	xor ah,ch
 	ret
 JMPRAX ENDP
 
