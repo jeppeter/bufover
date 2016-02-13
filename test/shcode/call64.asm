@@ -145,6 +145,8 @@ JMPRAX PROC
 	mov rax,[r9+r10+8]
 	mov r8,[r9+r10+8]
 	mov rax,[rcx+r10+8]
+	mov rax,[rcx*8+r10+8]
+	mov rax,[rcx+r10*4+8]
 	xor rax,[rcx+rdx+8]
 	xor [rcx+rdx+8],rax
 	xor r8,r9

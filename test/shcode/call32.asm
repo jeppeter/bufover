@@ -130,6 +130,7 @@ JMPRAX PROC
 	mov esi,01020304h
 	mov edi,01020304h
 
+	mov eax,[ecx+edx*4+128h]
 	xor eax,ecx
 	xor ax,cx
 	xor al,cl
