@@ -1,11 +1,21 @@
 
 #include <stdio.h>
 
-extern "C" int  IntAdd(int a,int b,int c,int d);
-extern "C" int   CAdd(int a,int b);
-extern "C" int  DecodeBuffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen);
-extern "C" void* GetBaseAddr(void);
-extern "C" int CallJmpoline(void* funcptr);
+#ifdef __cplusplus
+extern "C" {
+#endif
+int  IntAdd(int a,int b,int c,int d);
+int   CAdd(int a,int b);
+int  DecodeBuffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen);
+void* GetBaseAddr(void);
+int CallJmpoline(void* funcptr);
+int shcode_test();
+
+#ifdef __cplusplus
+};
+#endif
+
+
 
 
 int encode_buffer(unsigned char* pinbuf,int inlen,unsigned char* poutbuf,int outlen)
@@ -116,7 +126,8 @@ int print_call(void* ptr)
 int main(int argc,char* argv[])
 {
 	int ret;
-	printf("this is make shell code\n");	
+	printf("this is make shell code\n");
+	printf("shcode_test %d\n",shcode_test());
 	shell_code();
 	printf("to start\n");
 	ret = CallJmpoline((void*)print_call);

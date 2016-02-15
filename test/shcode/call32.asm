@@ -2,6 +2,10 @@
 
 .686p
 .model flat,C
+
+.data
+calljmpaddr dd IntAdd
+
 .code
 IntAdd Proc
 	push ebp
@@ -111,6 +115,12 @@ ShellCodeForCall PROC
 	mov eax,dword ptr[esp+4]
 	ret 4h
 ShellCodeForCall ENDP
+
+shcode_test PROC
+	mov ecx,1
+	mov edx,2
+	jmp calljmpaddr
+shcode_test ENDP
 
 JMPRAX PROC
 	lea eax,[$+6]

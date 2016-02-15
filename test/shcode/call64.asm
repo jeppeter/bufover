@@ -1,3 +1,7 @@
+.data
+calljmpaddr dq IntAdd
+
+
 .code
 IntAdd Proc
 	push rbp
@@ -100,6 +104,13 @@ ShellCodeForCall PROC
 	mov rax,qword ptr[rsp+8]
 	ret 8h
 ShellCodeForCall ENDP
+
+public shcode_test
+shcode_test PROC
+	mov rcx,1
+	mov rdx,2
+	jmp calljmpaddr
+shcode_test ENDP
 
 JMPRAX PROC
 	lea rax,[$+7]
