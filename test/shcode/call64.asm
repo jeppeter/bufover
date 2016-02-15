@@ -112,7 +112,7 @@ JMPRAX PROC
 	lea rdi,[$+7]
 	mov rax,01234567812345678h
 	mov rcx,01234567812345678h
-	mov rdx,01234567812345678h
+	mov rdx,8888888888888888h
 	mov rbx,01234567812345678h
 	mov rsp,01234567812345678h
 	mov rbp,01234567812345678h
@@ -157,6 +157,7 @@ JMPRAX PROC
 	xor al,cl
 	xor ah,ch
 	xor eax,edx
+
 	ret
 JMPRAX ENDP
 
